@@ -276,7 +276,7 @@ slider();
 draw();
 rainbowMode();
 eraser();
-lighter();git add
+lighter();  
 shader();
 
 
