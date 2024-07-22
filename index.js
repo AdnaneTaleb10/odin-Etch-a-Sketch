@@ -37,6 +37,7 @@ function slider(){
         lighter();
         shader();
         clearGrid();
+        toggleGridLines();
 
         //making the smallest dimension of the grid 5*5
         if(e.target.value <= 5){
@@ -274,7 +275,7 @@ function shader(){
 }
 
 function clearGrid(){
-    let clearButton = document.querySelector('#clear-button')
+    let clearButton = document.querySelector('#clear-button');
     let squares = document.querySelectorAll('.grid-item');
     let gridItemList = Array.from(squares);
 
@@ -283,7 +284,20 @@ function clearGrid(){
             square.style.backgroundColor = '#fff';
         })
     })
+}
 
+function toggleGridLines(){
+    let clearButton = document.querySelector('#toggle-grid-lines-button');
+    let squares = document.querySelectorAll('.grid-item');
+    let gridItemList = Array.from(squares);
+    let showLines = true;
+
+    clearButton.addEventListener('click' , () => {  
+        showLines = !showLines;
+        gridItemList.forEach((square) => {
+            square.style.border = showLines ? '1px solid #9290C3' : 'none';
+        })
+    })
 }
 
 
@@ -295,6 +309,7 @@ eraser();
 lighter();  
 shader();
 clearGrid()
+toggleGridLines();
 
 
 
