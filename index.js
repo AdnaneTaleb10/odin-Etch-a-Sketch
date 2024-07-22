@@ -169,12 +169,68 @@ function eraser(){
     }) 
 }
 
+//function to light a given color 
+function getLightenedColor(rgbString, increment) {
+    // Extract RGB values from the input string
+    let rgb = rgbString.match(/\d+/g).map(Number);
+    let [r, g, b] = rgb;
+
+    r = Math.min(r + increment, 255);
+    g = Math.min(g + increment, 255);
+    b = Math.min(b + increment, 255);
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+
+function lighter(){
+    let lighterButton = document.querySelector('#lighter-button');
+    let squares = document.querySelectorAll('.grid-item');
+    let gridItemList = Array.from(squares);
+    let isClicked = false;
+    let isMouseDown = false;
+
+        //verify if the lighter button is clicked
+        lighterButton.addEventListener('click' , (e) => {
+            isClicked = !isClicked;
+            if(isClicked){
+                e.target.style.backgroundColor = '#9290C3';
+                e.target.style.color = '#1B1A55';
+            }else{
+                e.target.style.backgroundColor = '#1B1A55';
+                e.target.style.color = '#9290C3';
+            }
+        })   
+        
+        gridItemList.forEach((square) => {
+            square.addEventListener('mousedown' , () => {
+                isMouseDown = true;
+            })
+    
+            square.addEventListener('mouseup' , () => {
+                isMouseDown = false;
+            })
+    
+            square.addEventListener('mouseover' ,(e) => { 
+                if(isMouseDown && isClicked ){
+                    let curBackgroundColor = getComputedStyle(e.target).backgroundColor;
+                    let newColor = getLightenedColor(curBackgroundColor, 20); 
+                    e.target.style.backgroundColor = newColor;
+                }
+            })
+        }) 
+} 
+
+
 
 createGrid(25);
 slider();
 draw();
-rainbowMode()
-eraser()
+rainbowMode();
+eraser();
+lighter();
+shader();
 
 
 
