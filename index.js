@@ -182,7 +182,17 @@ function getLightenedColor(rgbString, increment) {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
+function getColorShaded(rgbString, decrement){
+    // Extract RGB values from the input string
+    let rgb = rgbString.match(/\d+/g).map(Number);
+    let [r, g, b] = rgb;
 
+    r = Math.max(r - decrement, 0);
+    g = Math.max(g - decrement, 0);
+    b = Math.max(b - decrement, 0);
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 function lighter(){
     let lighterButton = document.querySelector('#lighter-button');
@@ -222,6 +232,43 @@ function lighter(){
         }) 
 } 
 
+function shader(){
+    let lighterButton = document.querySelector('#lighter-button');
+    let squares = document.querySelectorAll('.grid-item');
+    let gridItemList = Array.from(squares);
+    let isClicked = false;
+    let isMouseDown = false;
+
+        //verify if the lighter button is clicked
+        lighterButton.addEventListener('click' , (e) => {
+            isClicked = !isClicked;
+            if(isClicked){
+                e.target.style.backgroundColor = '#9290C3';
+                e.target.style.color = '#1B1A55';
+            }else{
+                e.target.style.backgroundColor = '#1B1A55';
+                e.target.style.color = '#9290C3';
+            }
+        })   
+        
+        gridItemList.forEach((square) => {
+            square.addEventListener('mousedown' , () => {
+                isMouseDown = true;
+            })
+    
+            square.addEventListener('mouseup' , () => {
+                isMouseDown = false;
+            })
+    
+            square.addEventListener('mouseover' ,(e) => { 
+                if(isMouseDown && isClicked ){
+                    let curBackgroundColor = getComputedStyle(e.target).backgroundColor;
+                    let newColor = getColorShaded(curBackgroundColor, 20); 
+                    e.target.style.backgroundColor = newColor;
+                }
+            })
+        }) 
+} 
 
 
 createGrid(25);
@@ -229,7 +276,7 @@ slider();
 draw();
 rainbowMode();
 eraser();
-lighter();
+lighter();git add
 shader();
 
 
