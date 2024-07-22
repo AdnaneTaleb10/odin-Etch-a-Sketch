@@ -34,6 +34,9 @@ function slider(){
         draw();
         rainbowMode();
         eraser();
+        lighter();
+        shader();
+        clearGrid();
 
         //making the smallest dimension of the grid 5*5
         if(e.target.value <= 5){
@@ -233,14 +236,14 @@ function lighter(){
 } 
 
 function shader(){
-    let lighterButton = document.querySelector('#lighter-button');
+    let shaderButton = document.querySelector('#shader-button');
     let squares = document.querySelectorAll('.grid-item');
     let gridItemList = Array.from(squares);
     let isClicked = false;
     let isMouseDown = false;
 
-        //verify if the lighter button is clicked
-        lighterButton.addEventListener('click' , (e) => {
+        //verify if the shader button is clicked
+        shaderButton.addEventListener('click' , (e) => {
             isClicked = !isClicked;
             if(isClicked){
                 e.target.style.backgroundColor = '#9290C3';
@@ -268,7 +271,20 @@ function shader(){
                 }
             })
         }) 
-} 
+}
+
+function clearGrid(){
+    let clearButton = document.querySelector('#clear-button')
+    let squares = document.querySelectorAll('.grid-item');
+    let gridItemList = Array.from(squares);
+
+    clearButton.addEventListener('click' , () => {  
+        gridItemList.forEach((square) => {
+            square.style.backgroundColor = '#fff';
+        })
+    })
+
+}
 
 
 createGrid(25);
@@ -278,6 +294,7 @@ rainbowMode();
 eraser();
 lighter();  
 shader();
+clearGrid()
 
 
 
