@@ -32,8 +32,10 @@ function slider(){
         grid.textContent = "";
         createGrid(e.target.value);
         draw();
+        rainbowMode();
+        eraser();
 
-        //making the lower dimension of the grid 5*5
+        //making the smallest dimension of the grid 5*5
         if(e.target.value <= 5){
             height.textContent = "5";
             width.textContent = "5";  
@@ -76,12 +78,6 @@ function draw(){
             }
         })    
 
-        //color the first square clicked
-        square.addEventListener('mousedown', (e) => {
-            let selectedColor = document.querySelector('#color-picker').value;
-            e.target.style.backgroundColor = selectedColor;
-        });
-
         //in case the cursor is outside the grid, disable the process of coloring when cursor is over 
         square.addEventListener('dragstart', (e) => {
             e.preventDefault();
@@ -89,13 +85,96 @@ function draw(){
         });
     })
 
+
     grid.addEventListener('mouseleave' , () => {
         isMouseDown = false;
     })
 }
 
+function rainbowMode(){
+    let rainbowButton = document.querySelector('#rainbow-button');
+    let squares = document.querySelectorAll('.grid-item');
+    let gridItemList = Array.from(squares);
+    let isClicked = false
+    let isMouseDown = false
+
+    rainbowButton.addEventListener('click' , (e) => {
+        isClicked = !isClicked;
+        if(isClicked){
+            e.target.style.backgroundColor = '#9290C3';
+            e.target.style.color = '#1B1A55';
+        }else{
+            e.target.style.backgroundColor = '#1B1A55';
+            e.target.style.color = '#9290C3';
+        }
+    })
+
+    gridItemList.forEach((square) => {
+        square.addEventListener('mousedown' , () => {
+            isMouseDown = true;
+        })
+
+        square.addEventListener('mouseup' , () => {
+            isMouseDown = false;
+        })
+
+        square.addEventListener('mouseover' ,(e) => { 
+            if(isMouseDown && isClicked){
+                e.target.style.backgroundColor =  `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            }
+        })
+
+        //color the first square clicked
+        square.addEventListener('click' , (e) => {
+            if(isClicked){
+                e.target.style.backgroundColor =  `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            }
+        })
+    })
+}
+
+function eraser(){
+    let eraserButton = document.querySelector('#eraser-button');
+    let squares = document.querySelectorAll('.grid-item');
+    let gridItemList = Array.from(squares);
+    let isClicked = false;
+    let isMouseDown = false;
+
+    //verify if the eraser button is clicked
+    eraserButton.addEventListener('click' , (e) => {
+        isClicked = !isClicked;
+        if(isClicked){
+            e.target.style.backgroundColor = '#9290C3';
+            e.target.style.color = '#1B1A55';
+        }else{
+            e.target.style.backgroundColor = '#1B1A55';
+            e.target.style.color = '#9290C3';
+        }
+    })   
+    
+    gridItemList.forEach((square) => {
+        square.addEventListener('mousedown' , () => {
+            isMouseDown = true;
+        })
+
+        square.addEventListener('mouseup' , () => {
+            isMouseDown = false;
+        })
+
+        square.addEventListener('mouseover' ,(e) => { 
+            if(isMouseDown && isClicked){
+                e.target.style.backgroundColor =  `#fff`;
+            }
+        })
+    }) 
+}
+
+
 createGrid(25);
 slider();
 draw();
+rainbowMode()
+eraser()
+
 
 
