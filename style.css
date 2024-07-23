@@ -121,6 +121,7 @@ hr {
     border: 1px solid var(--accent-color);
     display: flex;
     flex-wrap: wrap;
+    background-color: rgb(255, 255, 255);
 }
 
 .slider {
